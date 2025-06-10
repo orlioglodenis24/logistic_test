@@ -1,3 +1,4 @@
+/* ИСПРАВЛЕННЫЙ CSS С ПРАВИЛЬНЫМИ ПУТЯМИ К ИЗОБРАЖЕНИЯМ */
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -260,7 +261,7 @@ body {
     transform: rotate(-45deg) translate(7px, -6px);
 }
 
-/* Hero Section */
+/* ИСПРАВЛЕННЫЙ Hero Section с правильными путями к изображениям */
 .hero-section {
     position: relative;
     height: 100vh;
@@ -269,17 +270,20 @@ body {
     align-items: center;
     justify-content: center;
     margin-top: 80px;
+    /* ИСПРАВЛЕНО: Используем правильный путь к изображению */
     background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(249,115,22,0.2)), 
-                url('back-img/back1.jpg');
+                url('images/back1.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    transition: background-image 0.8s ease-in-out;
 }
 
 .hero-slider {
     position: relative;
     width: 100%;
     height: 100%;
+    z-index: 1;
 }
 
 .slide {
@@ -289,11 +293,12 @@ body {
     width: 100%;
     height: 100%;
     opacity: 0;
-    transform: scale(1.1);
+    transform: scale(1.05);
     transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2;
 }
 
 .slide.active {
@@ -301,22 +306,14 @@ body {
     transform: scale(1);
 }
 
-.slide-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
 .slide-content {
     text-align: center;
     max-width: 800px;
     padding: 0 var(--spacing-lg);
-    z-index: 2;
+    z-index: 10;
     transform: translateY(30px);
     transition: transform 1s ease-out 0.3s;
+    position: relative;
 }
 
 .slide.active .slide-content {
@@ -347,7 +344,6 @@ body {
     font-weight: var(--font-weight-normal);
     line-height: 1.6;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    /* height: 50%; */
 }
 
 .cta-button {
@@ -363,14 +359,23 @@ body {
     box-shadow: var(--shadow-md);
     border: none;
     cursor: pointer;
-    /* margin-top: 10%; */
-    /* margin-left: 100%; */
+    position: relative;
+    z-index: 50 !important;
+    pointer-events: auto !important;
+    isolation: isolate;
 }
 
 .cta-button:hover {
     background: var(--primary-orange-dark);
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
+    z-index: 51 !important;
+}
+
+.cta-button:focus {
+    outline: 3px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+    z-index: 52 !important;
 }
 
 .slider-controls {
@@ -380,18 +385,21 @@ body {
     transform: translateX(-50%);
     display: flex;
     gap: var(--spacing-md);
-    z-index: 3;
+    z-index: 20;
+    pointer-events: auto;
 }
 
 .nav-dot {
     width: 14px;
     height: 14px;
-    border-radius: 50%;
+    border-radius: 50% !important;
     background: rgba(255, 255, 255, 0.4);
     border: 2px solid var(--primary-orange);
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
+    z-index: 21;
+    pointer-events: auto !important;
 }
 
 .nav-dot::before {
@@ -411,6 +419,7 @@ body {
 .nav-dot:hover::before {
     width: 8px;
     height: 8px;
+    border-radius: 50%;
 }
 
 .nav-dot.active,
@@ -418,18 +427,25 @@ body {
     background: rgba(255, 255, 255, 0.8);
     transform: scale(1.2);
     box-shadow: 0 0 12px rgba(249, 115, 22, 0.4);
+    border-radius: 50% !important;
+}
+
+.nav-dot:focus {
+    outline: 2px solid var(--primary-orange);
+    outline-offset: 2px;
+    border-radius: 50% !important;
 }
 
 .slider-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border: none;
     width: 55px;
     height: 55px;
-    border-radius: 50%;
+    border-radius: 50% !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -437,21 +453,30 @@ body {
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     color: var(--primary-orange);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    z-index: 10;
+    z-index: 25 !important;
+    pointer-events: auto !important;
 }
 
 .slider-arrow:hover {
     background: var(--white);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     transform: translateY(-50%) scale(1.1);
+    z-index: 26 !important;
 }
 
 .slider-arrow:active {
     transform: translateY(-50%) scale(0.95);
 }
 
+.slider-arrow:focus {
+    outline: 3px solid var(--primary-orange);
+    outline-offset: 2px;
+    border-radius: 50% !important;
+}
+
 .slider-arrow svg {
     transition: transform 0.3s ease;
+    pointer-events: none;
 }
 
 .slider-arrow:hover svg {
@@ -464,6 +489,11 @@ body {
 
 .slider-next {
     right: var(--spacing-2xl);
+}
+
+/* Убираем старый slide-background так как теперь фон на .hero-section */
+.slide-background {
+    display: none;
 }
 
 /* Section Styles */
@@ -1394,7 +1424,7 @@ section {
     box-shadow: var(--shadow-lg);
 }
 
-/* Contact Info Card Styles (for JavaScript replacement) */
+/* Contact Info Card Styles */
 .contact-info-card {
     background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
     border-radius: 20px;
@@ -2030,7 +2060,29 @@ section {
     }
 
     .slider-arrow {
-        display: none;
+        display: block !important;
+        width: 45px;
+        height: 45px;
+        z-index: 25 !important;
+    }
+
+    .slider-prev {
+        left: var(--spacing-md);
+    }
+
+    .slider-next {
+        right: var(--spacing-md);
+    }
+
+    .cta-button {
+        z-index: 50 !important;
+        padding: var(--spacing-md) var(--spacing-xl);
+        font-size: 1rem;
+    }
+
+    .slider-controls {
+        bottom: var(--spacing-lg);
+        z-index: 20;
     }
 
     .about-content,
@@ -2142,6 +2194,16 @@ section {
 @media (max-width: 480px) {
     .hero-section {
         margin-top: 70px;
+    }
+
+    .slider-arrow {
+        width: 40px;
+        height: 40px;
+    }
+
+    .cta-button {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 0.95rem;
     }
 
     .service-card,
@@ -2369,65 +2431,18 @@ section {
     }
 }
 
-
-/* Исправление проблем с кнопками слайдера */
-.slider-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border: none;
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    color: var(--primary-orange);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    z-index: 10; /* Увеличил z-index для доступности */
-    pointer-events: auto; /* Убедимся что кнопка кликабельна */
+/* Фиксы для кнопок и интерактивных элементов */
+* {
+    -webkit-tap-highlight-color: transparent;
 }
 
-.slider-arrow:hover {
-    background: var(--white);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    transform: translateY(-50%) scale(1.1);
+.hero-section * {
+    pointer-events: auto;
 }
 
-.slider-arrow:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-.slider-arrow:focus {
-    outline: 3px solid var(--primary-orange);
-    outline-offset: 2px;
-    border-radius: 50%; /* Сохраняем круглую форму при фокусе */
-}
-
-.slider-arrow svg {
-    transition: transform 0.3s ease;
-}
-
-.slider-arrow:hover svg {
-    transform: scale(1.2);
-}
-
-.slider-prev {
-    left: var(--spacing-2xl);
-}
-
-.slider-next {
-    right: var(--spacing-2xl);
-}
-
-.hero-slider {
-    position: relative;
-    width: 100%;
-    height: 100%;
+.hero-section::before,
+.hero-section::after {
+    pointer-events: none;
 }
 
 .logo:focus {
@@ -2446,51 +2461,4 @@ section {
     outline: none !important;
     box-shadow: none !important;
     border: none !important;
-}
-
-.nav-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50% !important; 
-    background: rgba(255, 255, 255, 0.4);
-    border: 2px solid var(--primary-orange);
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    z-index: 10;
-    pointer-events: auto;
-}
-
-.nav-dot:focus {
-    outline: 2px solid var(--primary-orange);
-    outline-offset: 2px;
-    border-radius: 50% !important; 
-}
-
-.nav-dot::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: var(--primary-orange);
-    transition: all 0.4s ease;
-    transform: translate(-50%, -50%);
-}
-
-.nav-dot.active::before,
-.nav-dot:hover::before {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-
-.nav-dot.active,
-.nav-dot:hover {
-    background: rgba(255, 255, 255, 0.8);
-    transform: scale(1.2);
-    box-shadow: 0 0 12px rgba(249, 115, 22, 0.4);
-    border-radius: 50% !important;
 }
