@@ -11,11 +11,10 @@ class TomirLogisticApp {
         this.animatedElements = new Set();
         this.isScrolling = false;
         
-        // Массив фоновых изображений для слайдов с правильными путями
         this.slideBackgrounds = [
-            'images/`back1.jpg',  // Первый слайд
+            'images/back1.jpg',  // Первый слайд
             'images/back2.jpg',  // Второй слайд  
-            'images/back3.jpg'   // Третий слайд
+            'images/back3.jpg'   // Третий слайдд
         ];
         
         this.init();
