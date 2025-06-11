@@ -644,9 +644,9 @@ class TomirLogisticApp {
         this.currentGalleryIndex = 0;
         
         this.slideBackgrounds = [
-            'images/back1.jpg',
+            'images/video1.mp4',
             'images/back20.jpg',
-            'images/back30.jpg'
+            'images/back02.jpg',
         ];
         
         this.galleryImages = [
@@ -861,14 +861,46 @@ class TomirLogisticApp {
     }
 
     updateSlideBackground(index) {
-        const heroSection = document.querySelector('.hero-section');
-        if (heroSection && this.slideBackgrounds[index]) {
+    const heroSection = document.querySelector('.hero-section');
+    if (heroSection && this.slideBackgrounds[index]) {
+        const background = this.slideBackgrounds[index];
+        
+        if (background.endsWith('.mp4')) {
+            // Видео фон
+            let videoElement = heroSection.querySelector('.hero-video');
+            if (!videoElement) {
+                videoElement = document.createElement('video');
+                videoElement.className = 'hero-video';
+                videoElement.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    z-index: -1;
+                `;
+                videoElement.autoplay = true;
+                videoElement.muted = true;
+                videoElement.loop = true;
+                videoElement.playsInline = true;
+                heroSection.appendChild(videoElement);
+            }
+            videoElement.src = background;
+            heroSection.style.backgroundImage = 'linear-gradient(135deg, rgba(0,0,0,0.4), rgba(249,115,22,0.2))';
+        } else {
+            // Обычный фон
+            const videoElement = heroSection.querySelector('.hero-video');
+            if (videoElement) {
+                videoElement.remove();
+            }
             heroSection.style.transition = 'background-image 0.8s ease-in-out';
-            heroSection.style.backgroundImage = `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(249,115,22,0.2)), url('${this.slideBackgrounds[index]}')`;
+            heroSection.style.backgroundImage = `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(249,115,22,0.2)), url('${background}')`;
             heroSection.style.backgroundSize = 'cover';
             heroSection.style.backgroundPosition = 'center';
         }
     }
+}
 
     goToSlide(index) {
         if (index < 0 || index >= this.totalSlides) return;
